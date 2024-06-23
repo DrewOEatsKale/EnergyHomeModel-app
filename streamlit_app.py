@@ -5,6 +5,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from pathlib import Path
 import numpy as np
+import pickle
 
 from datetime import date, timedelta
 
@@ -41,13 +42,17 @@ runningparams = ["coolStage1", "heatStage1", "auxStage1"]
 simpledf = df[simpleDataset + runningparams]
 #simpledf['runtime'] = df[runningparams].sum(axis=1)
 
-pipe = make_pipeline(KNNImputer(n_neighbors=2, weights="uniform"), LinearRegression())
+#pipe = make_pipeline(KNNImputer(n_neighbors=2, weights="uniform"), LinearRegression())
 
-X = simpledf.drop(['usage'], axis=1)
-y = simpledf.usage
+#X = simpledf.drop(['usage'], axis=1)
+#y = simpledf.usage
 
-pipe.fit(X, y)
+#pipe.fit(X, y)
 # --- MODEL TRAINED ---
+
+# load
+with open('model.pkl', 'rb') as f:
+    pipe = pickle.load(f)
 
 st.write(simpledf)
 st.write("Edit the dataframe below to predict the energy usage."
